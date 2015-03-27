@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MOML version="1.1.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.applusform.com/xsd/moml_ui_1.1.8.xsd">
+	<UILAYOUT portrait="320,480" landscape="320,480">
+		<WINDOW layout="0,0,320,480" img="white" align="linear:vertical" padding="10,20,10,0">
+			<LABEL text="지하철 정보 검색 : "/>
+			<WINDOW align="linear:subCenter">
+				<SPINNER id="lines" layout="120,30" title="호선" dataSource="subwayLines.xml" dataList="//item" textPath="@text" valuePath="@value" onChange="function.updateStations"/>
+				<SPINNER id="stations" layout="180,30" title="역" dataList="//row" textPath="STATION_NM/text()" valuePath="STATION_CD/text()" onChange="function.updateStationFacilities; function.updateTimeTable"/>
+			</WINDOW>
+
+			<WINDOW layout="300,30" align="linear:subCenter">
+				<LABEL text="막차 : " />
+				<SPINNER id="weekDay" layout="120,30" title="요일" dataSource="weekDay.xml" dataList="//item" textPath="@text" valuePath="@value" onChange="function.updateTimeTable"/>
+				<SPINNER id="upDown" layout="120,30" title="상/하행선" dataSource="upDown.xml" dataList="//item" textPath="@text" valuePath="@value" onChange="function.updateTimeTable"/>
+			</WINDOW>
+			
+			<LIST2 id="timeList" layout="300,150" dataList="//row" img="#e1f5fe">
+				<LISTLAYOUT>
+					<WINDOW layout="0,0,300,20" align="linear">
+						<LABEL id="value" layout="150,20" text="{xpath.evaluate('SUBWAYENAME/text()')}" />
+						<LABEL id="value" layout="150,20" text="{xpath.evaluate('LEFTTIME/text()')}" />
+					</WINDOW>
+				</LISTLAYOUT>
+			</LIST2>
+			
+			<LABEL layout="300,30" text="출구 안내 :" textAlign="bottom"/>
+			<LIST2 id="facilities" layout="300,150" dataList="//row" img="#e1f5fe" divider="#00000000">
+				<LISTLAYOUT>
+					<WINDOW layout="0,0,300,15" align="linear">
+						<LABEL id="value" layout="50,15" text="{xpath.evaluate('LINE_NAME/text()')}" />
+						<LABEL id="value" layout="60,15" text="{xpath.evaluate('EXIT_NO/text()')}번 출구" />
+						<LABEL id="value" layout="190,15" text="{xpath.evaluate('AREA_NM/text()')}" />
+					</WINDOW>
+				</LISTLAYOUT>
+			</LIST2>
+			<LABEL text="자료제공 : 서울메트로" />
+		</WINDOW>
+	</UILAYOUT>
+
+	<!-- http://data.seoul.go.kr 에서 Open API 인증키를 발급 받아야 합니다. -->
+	<!-- 다른 사람의 키를 사용할 경우 트래픽을 초과하거나 변경되면 동작하지 않게됩니다.-->
+	<CMD cmd="userVariable.serviceKey = '765a6a654c68797036394d4b4d4f6f'" />
+	<CMD cmd="userVariable.apiUrl = 'http://openapi.seoul.go.kr:8088/' + userVariable.serviceKey + '/xml/'" />
+
+	<CMD cmd="function.updateStations" />
+	
+	<!-- 노선별 지하철역 목록 -->
+	<FUNCTION id="updateStations">
+		<CMD cmd="url = userVariable.apiUrl + 'SearchSTNBySubwayLineService/1/999/' + lines.value"/>
+		<CMD cmd="stations.dataSource = file.read(url)" />
+		<CMD cmd="stations.index = 0" />
+		<CMD cmd="function.updateStationFacilities" />
+		<CMD cmd="function.updateTimeTable"/>
+	</FUNCTION>
+
+	<!-- 지하철 출구 주변 시설 목록 -->
+	<FUNCTION id="updateStationFacilities">
+		<CMD cmd="url = userVariable.apiUrl + 'SearchFacilityByIDService/1/999/' + stations.value"/>
+		<CMD cmd="facilities.dataSource = file.read(url)" />
+	</FUNCTION>
+
+	<!-- 막차 목록 -->
+	<FUNCTION id="updateTimeTable">
+		<CMD cmd="url = userVariable.apiUrl + 'SearchLastTrainTimeByIDService/1/999/'+ stations.value  + '/' + weekDay.value+'/' + upDown.value+ '/'  "/>
+		<CMD cmd="timeList.dataSource = file.read(url)" />
+	</FUNCTION>
+</MOML>

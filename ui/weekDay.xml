@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<items>
+	<item text="평일" value="1"/>
+	<item text="토요일" value="2"/>
+	<item text="휴일/일요일" value="3"/>
+</items>
+
+

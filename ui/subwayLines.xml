@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<items>
+	<item text="1호선" value="1"/>
+	<item text="2호선" value="2"/>
+	<item text="3호선" value="3"/>
+	<item text="4호선" value="4"/>
+	<item text="5호선" value="5"/>
+	<item text="6호선" value="6"/>
+	<item text="7호선" value="7"/>
+	<item text="8호선" value="8"/>
+	<item text="9호선" value="9"/>
+	<item text="인천1호선" value="I"/>
+	<item text="경의선" value="K"/>
+	<item text="분당선" value="B"/>
+	<item text="중앙선" value="J"/>
+	<item text="공항철도" value="A"/>
+	<item text="경춘선" value="G"/>
+	<item text="신분당선" value="S"/>
+	<item text="수인선" value="SU"/>
+</items>
+
+
