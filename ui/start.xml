@@ -39,7 +39,7 @@
 
 	<!-- http://data.seoul.go.kr 에서 Open API 인증키를 발급 받아야 합니다. -->
 	<!-- 다른 사람의 키를 사용할 경우 트래픽을 초과하거나 변경되면 동작하지 않게됩니다.-->
-	<CMD cmd="userVariable.serviceKey = '765a6a654c68797036394d4b4d4f6f'" />
+	<CMD cmd="userVariable.serviceKey = '417341706d68797034375347516171'" />
 	<CMD cmd="userVariable.apiUrl = 'http://openapi.seoul.go.kr:8088/' + userVariable.serviceKey + '/xml/'" />
 
 	<CMD cmd="function.updateStations" />
