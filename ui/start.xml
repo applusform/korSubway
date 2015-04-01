@@ -55,7 +55,10 @@
 
 	<!-- 지하철 출구 주변 시설 목록 -->
 	<FUNCTION id="updateStationFacilities">
-		<CMD cmd="url = userVariable.apiUrl + 'SearchFacilityByIDService/1/999/' + stations.value"/>
+		<!-- SearchFacilityByIDService는 대표역 코드(CYBER_ST_CODE)로만 조회가 가능함-->
+		<CMD cmd="url = userVariable.apiUrl + 'SearchSTNInfoByIDService/1/999/' + stations.value"/>
+		<CMD cmd="cyberStCode = xpath.evaluateEx(file.read(url), '//CYBER_ST_CODE/text()')" />
+		<CMD cmd="url = userVariable.apiUrl + 'SearchFacilityByIDService/1/999/' + cyberStCode"/> 
 		<CMD cmd="facilities.dataSource = file.read(url)" />
 	</FUNCTION>
 
